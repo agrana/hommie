@@ -1,0 +1,112 @@
+/* Basic resets and layout */
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  background: url("../assets/background.png") no-repeat center center fixed;
+  background-size: cover;
+  color: #ffffff;
+}
+
+/* Layout for the two panels */
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+/* Left panel (Bookmarks) */
+.left-panel {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.left-panel header {
+  text-align: center;
+}
+
+nav.bookmark-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+nav.bookmark-list a {
+  color: #ffffff;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+nav.bookmark-list a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Right panel (Pomodoro Timer and History) */
+.right-panel {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+}
+
+.right-panel section {
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+#pomodoro {
+  text-align: center;
+}
+
+#timer {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  font-size: 1rem;
+  margin: 0.25rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* History section */
+#historyTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#historyTable th,
+#historyTable td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#historyTable th {
+  background-color: rgba(255, 255, 255, 0.1);
+}

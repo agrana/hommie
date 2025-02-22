@@ -3,164 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Personal Homepage</title>
+  <title>🏠 Homepage</title>
 
-  <!-- Inline CSS for simplicity, but you can move this to a separate CSS file -->
-  <style>
-    /* Basic resets and layout */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      /* Update with your own image URL or local file path */
-      background: url("assets/background.png") no-repeat center center fixed;
-      background-size: cover;
-      color: #ffffff;
-    }
-
-    header {
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 1rem;
-      text-align: center;
-    }
-    header h1 {
-      margin-bottom: 0.5rem;
-    }
-
-    nav.bookmark-list {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    nav.bookmark-list a {
-      color: #ffffff;
-      text-decoration: none;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-    nav.bookmark-list a:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Pomodoro Timer section */
-    section#pomodoro {
-      text-align: center;
-      margin-top: 2rem;
-    }
-    section#pomodoro h2 {
-      margin-bottom: 1rem;
-    }
-    #timer {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    button {
-      font-size: 1rem;
-      margin: 0.25rem;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: rgba(255, 255, 255, 0.4);
-    }
-  </style>
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <!-- Header + Bookmarks -->
-  <header>
-    <h1>Welcome, let's be productive!</h1>
-    <nav class="bookmark-list">
-      <!-- Add more bookmarks as needed -->
-      <a href="https://www.google.com" target="_blank">Google</a>
-      <a href="https://www.youtube.com" target="_blank">YouTube</a>
-      <a href="https://stackoverflow.com" target="_blank">Stack Overflow</a>
-      <a href="https://chat.openai.com" target="_blank">ChatGPT</a>
-    </nav>
-  </header>
+  <div class="container">
+    <!-- Bookmarks Section -->
+    <section class="left-panel">
+      <header>
+        <h1>Welcome, let's be productive!</h1>
+        <nav class="bookmark-list">
+          <a href="https://www.youtube.com" target="_blank">YouTube</a>
+          <a href="https://chat.openai.com" target="_blank">Chat GPT</a>
+          <a href="file:///Users/alfonsograna/Documents/meta_notes/Objectives goals.md" target="_blank">Objectives</a>
+          <a href="file:///Users/alfonsograna/Documents/meta_notes/ToDo Personal.md" target="_blank">ToDoPersonal</a>
+        </nav>
+      </header>
+    </section>
 
-  <!-- Pomodoro Timer Section -->
-  <section id="pomodoro">
-    <h2>Pomodoro Timer</h2>
-    <div id="timer">25:00</div>
-    <button id="startBtn">Start</button>
-    <button id="pauseBtn">Pause</button>
-    <button id="resetBtn">Reset</button>
-  </section>
+    <!-- Pomodoro Timer and History Section -->
+    <section class="right-panel">
+      <section id="pomodoro">
+        <h2>Pomodoro Timer</h2>
+        <div id="timer">25:00</div>
+        <button id="startBtn">Start</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="resumeBtn">Resume</button>
+        <button id="resetBtn">Reset</button>
+        <button id="shortBreakBtn">5 min Break</button>
+      </section>
 
-  <!-- JavaScript for Pomodoro Timer -->
-  <script>
-    // Default Pomodoro time = 25 minutes (in seconds)
-    const pomodoroTime = 25 * 60; 
-    let timeRemaining = pomodoroTime; 
-    let timerInterval = null;
+      <section id="history">
+        <h2>Pomodoro History</h2>
+          <table id="historyTable">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Start Time</th>
+                <th>Finish Time</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody">
+              <!-- Individual sessions will be populated here -->
+            </tbody>
+            <tfoot id="historySummary">
+              <!-- Totals for tasks with the same description will appear here -->
+            </tfoot>
+          </table>
+        </table>
+      </section>
+    </section>
+  </div>
 
-    const timerDisplay = document.getElementById("timer");
-    const startBtn = document.getElementById("startBtn");
-    const pauseBtn = document.getElementById("pauseBtn");
-    const resetBtn = document.getElementById("resetBtn");
-
-    // Helper function to format the time (MM:SS)
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = seconds % 60;
-      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-    }
-
-    // Update timer display
-    function updateDisplay() {
-      timerDisplay.textContent = formatTime(timeRemaining);
-    }
-
-    // Start timer
-    function startTimer() {
-      // Prevent multiple intervals running simultaneously
-      if (!timerInterval) {
-        timerInterval = setInterval(() => {
-          timeRemaining--;
-          updateDisplay();
-
-          if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            alert("Time is up!");
-          }
-        }, 1000);
-      }
-    }
-
-    // Pause timer
-    function pauseTimer() {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-      }
-    }
-
-    // Reset timer
-    function resetTimer() {
-      pauseTimer();
-      timeRemaining = pomodoroTime;
-      updateDisplay();
-    }
-
-    // Event listeners
-    startBtn.addEventListener("click", startTimer);
-    pauseBtn.addEventListener("click", pauseTimer);
-    resetBtn.addEventListener("click", resetTimer);
-
-    // Initialize display
-    updateDisplay();
-  </script>
+  <script src="js/pomodoro.js"></script>
 </body>
 </html>
