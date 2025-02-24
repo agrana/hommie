@@ -5,34 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🏠 Homepage</title>
   <!-- External CSS (styles.css now includes Bulma via @import) -->
-  <link rel="stylesheet" href="css/styles.css" />
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/monokai.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+  <script src="js/notes.js"></script>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
   <div class="container">
     <div class="columns">
-      <!-- Left Panel: Bookmarks Section -->
-      <div class="column is-one-quarter">
-        <aside class="menu">
-          <p class="menu-label">
-            Welcome, let's be productive!
-          </p>
-          <ul class="menu-list">
-            <li><a href="file:///Users/alfonsograna/Documents/meta_notes/Objectives goals.md" target="_blank">Objectives</a></li>
-            <li><a href="file:///Users/alfonsograna/Documents/meta_notes/ToDo Personal.md" target="_blank">ToDoPersonal</a></li>
-          </ul>
-        </aside>
+      <!-- Column 1: Tasks -->
+      <div class="column column-tasks">
+        <section class="section">
+          <div class="box">
+            <h2 class="title is-4">Tasks</h2>
+            <!-- Placeholder for tasks -->
+            <div id="tasksPlaceholder">
+              <p>No tasks yet. Add your current work tasks here.</p>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <!-- Right Panel: Pomodoro Timer and History Section -->
-      <div class="column is-three-quarters">
+      <!-- Column 2: Notes -->
+      <div class="column columnt-notes">
+        <section class="section">
+          <div class="box">
+            <h2 class="title is-4">Notes</h2>
+            <!-- EasyMDE editor -->
+            <textarea id="easyMDE" placeholder="Enter your note in Markdown"></textarea>
+            <div class="control mt-2">
+              <button id="saveNoteBtn" class="button is-primary">Save Note</button>
+            </div>
+            <!-- Log of saved notes -->
+            <div id="notesLog" class="mt-4">
+              <!-- Saved notes will be appended here -->
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- Column 3: Pomodoro Timer & History -->
+      <div class="column column-timer">
         <!-- Pomodoro Timer Section -->
         <section class="section">
           <div class="box">
             <h2 class="title is-4" id="currentTask">Pomodoro Timer</h2>
             <div id="timer" class="subtitle has-text-centered">25:00</div>
             <div class="buttons is-centered">
-              <!-- Play Button: acts as Start / Resume -->
+              <!-- Start/Resume Button -->
               <button id="startBtn" class="button is-primary" aria-label="Start Pomodoro">
                 <span class="icon"><i class="fas fa-play"></i></span>
               </button>

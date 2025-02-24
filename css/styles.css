@@ -110,3 +110,53 @@ button:hover {
 #historyTable th {
   background-color: rgba(255, 255, 255, 0.1);
 }
+
+.markdown-body-dark {
+  background-color: #2d2d2d;
+  color: #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.markdown-body-dark h1,
+.markdown-body-dark h2,
+.markdown-body-dark h3,
+.markdown-body-dark h4,
+.markdown-body-dark h5,
+.markdown-body-dark h6 {
+  color: #fff;
+}
+
+.markdown-body-dark a {
+  color: #66afe9;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.CodeMirror.cm-s-monokai {
+  background-color: #272822 !important;
+  color: #f8f8f2;
+}
+/* Optional: Adjust caret and selection colors if needed */
+.CodeMirror.cm-s-monokai .CodeMirror-cursor {
+  border-left: 1px solid #f8f8f2 !important;
+}
+.CodeMirror.cm-s-monokai .CodeMirror-selected {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+.column-tasks {
+  flex: 0 0 10%;
+  max-width: 10%;
+}
+.column-notes {
+  flex: 0 0 60%;
+  max-width: 60%;
+}
+.column-timer {
+  flex: 0 0 30%;
+  max-width: 30%;
+}

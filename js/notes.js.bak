@@ -1,0 +1,60 @@
+document.addEventListener('DOMContentLoaded', function() {
+  const noteInput = document.getElementById('noteInput');
+  const saveNoteBtn = document.getElementById('saveNoteBtn');
+  const notesLog = document.getElementById('notesLog');
+  let notes = JSON.parse(localStorage.getItem('notes')) || [];
+  
+  // Render the saved notes
+  function renderNotes() {
+    notesLog.innerHTML = ''; // Clear previous content
+    notes.forEach(note => {
+      const noteEntry = document.createElement('div');
+      noteEntry.classList.add('note-entry', 'box');
+
+      const dateEl = document.createElement('small');
+      dateEl.textContent = new Date(note.timestamp).toLocaleString();
+
+      marked.setOptions({
+        gfm: true,
+        tables: true,
+        breaks: false,
+      });
+      const contentEl = document.createElement('div');
+      contentEl.classList.add('markdown-body'); // Apply GitHub Markdown styling
+      contentEl.innerHTML = marked.parse(note.content);
+
+      noteEntry.appendChild(dateEl);
+      noteEntry.appendChild(contentEl);
+
+      notesLog.appendChild(noteEntry);
+    });
+  }
+
+  function saveNote() {
+    const content = noteInput.value.trim();
+    if (!content) return; // Do nothing if empty
+
+    const note = {
+      content,
+      timestamp: Date.now()
+    };
+
+    notes.push(note);
+    localStorage.setItem('notes', JSON.stringify(notes));
+    noteInput.value = '';  // Clear the input field
+    renderNotes();
+  }
+
+  // Bind save note to the button click
+  saveNoteBtn.addEventListener('click', saveNote);
+
+  // Optionally, allow saving with Ctrl+Enter (or Cmd+Enter on Mac)
+  noteInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      saveNote();
+    }
+  });
+
+  // Render existing notes on page load
+  renderNotes();
+});
