@@ -64,10 +64,11 @@ function startPomodoro() {
       breakInterval = null;
     }
     isOnBreak = false;
+    pomodoroTimeRemaining = defaultPomodoroTime;
     alert("Break cancelled. Starting new Pomodoro.");
   }
   
-  // **Reset the pomodoro timer to its default value**
+  // Reset the pomodoro timer to its default value
   pomodoroTimeRemaining = defaultPomodoroTime;
   updateTimerDisplay(pomodoroTimeRemaining);
   
@@ -78,8 +79,10 @@ function startPomodoro() {
     // User canceled or left blank: do nothing
     return;
   }
-  // Save the message as "last used"
+  
+  // Save the message as "last used" and update the UI to show the current task
   setLastPomodoroMessage(taskDescription);
+  document.getElementById("currentTask").textContent = taskDescription;
   
   // Add to the localStorage history
   addNewPomodoroTask(taskDescription);
@@ -96,6 +99,8 @@ function startPomodoro() {
       isPomodoroRunning = false;
       alert("Time is up!");
       markLastTaskFinished();
+      // Optionally, reset the task display back to default or leave the last task.
+      document.getElementById("currentTask").textContent = "Pomodoro Timer";
     }
   }, 1000);
 }
@@ -215,10 +220,13 @@ function markLastTaskFinished() {
 // ------------------------
 function updateHistoryUI() {
   const tasks = getPomodoroTasks();
+  // Get only the last ten tasks and reverse the order to show newest first.
+  const lastTenTasks = tasks.slice(-10).reverse();
+
   const historyBody = document.getElementById("historyBody");
   historyBody.innerHTML = "";
 
-  tasks.forEach(taskObj => {
+  lastTenTasks.forEach(taskObj => {
     const row = document.createElement("tr");
 
     const taskCell = document.createElement("td");
@@ -241,19 +249,39 @@ function updateHistoryUI() {
     row.appendChild(finishCell);
     historyBody.appendChild(row);
   });
-}
 
-// ------------------------
-//       EVENT LISTENERS
-// ------------------------
+  // Compute summary totals for only the last ten sessions (finished ones)
+  const groups = {};
+  lastTenTasks.forEach(taskObj => {
+    if (!taskObj.finishTime) return; // only count finished sessions
+    const description = taskObj.task;
+    const start = new Date(taskObj.startTime);
+    const finish = new Date(taskObj.finishTime);
+    const durationMinutes = Math.round((finish - start) / 60000);
+    if (groups[description]) {
+      groups[description].totalMinutes += durationMinutes;
+      groups[description].sessions++;
+    } else {
+      groups[description] = { totalMinutes: durationMinutes, sessions: 1 };
+    }
+  });
+
+  const historySummary = document.getElementById("historySummary");
+  if (historySummary) {
+    historySummary.innerHTML = "";
+    for (const description in groups) {
+      const row = document.createElement("tr");
+      const summaryCell = document.createElement("td");
+      summaryCell.colSpan = 3;
+      summaryCell.style.fontWeight = "bold";
+      summaryCell.textContent =
+        `Task: "${description}" — Total Sessions: ${groups[description].sessions}, Total Time: ${groups[description].totalMinutes} minute(s)`;
+      row.appendChild(summaryCell);
+      historySummary.appendChild(row);
+    }
+  } 
+}
 startBtn.addEventListener("click", startPomodoro);
 pauseBtn.addEventListener("click", pausePomodoro);
 resetBtn.addEventListener("click", resetPomodoro);
 shortBreakBtn.addEventListener("click", startShortBreak);
-
-// ------------------------
-//       ON LOAD
-// ------------------------
-updateTimerDisplay(pomodoroTimeRemaining);
-updateHistoryUI();
-

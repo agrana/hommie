@@ -4,57 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🏠 Homepage</title>
-
-  <!-- External CSS -->
+  <!-- External CSS (styles.css now includes Bulma via @import) -->
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
 <body>
   <div class="container">
-    <!-- Bookmarks Section -->
-    <section class="left-panel">
-      <header>
-        <h1>Welcome, let's be productive!</h1>
-        <nav class="bookmark-list">
-          <a href="https://www.youtube.com" target="_blank">YouTube</a>
-          <a href="https://chat.openai.com" target="_blank">Chat GPT</a>
-          <a href="file:///Users/alfonsograna/Documents/meta_notes/Objectives goals.md" target="_blank">Objectives</a>
-          <a href="file:///Users/alfonsograna/Documents/meta_notes/ToDo Personal.md" target="_blank">ToDoPersonal</a>
-        </nav>
-      </header>
-    </section>
+    <div class="columns">
+      <!-- Left Panel: Bookmarks Section -->
+      <div class="column is-one-quarter">
+        <aside class="menu">
+          <p class="menu-label">
+            Welcome, let's be productive!
+          </p>
+          <ul class="menu-list">
+            <li><a href="file:///Users/alfonsograna/Documents/meta_notes/Objectives goals.md" target="_blank">Objectives</a></li>
+            <li><a href="file:///Users/alfonsograna/Documents/meta_notes/ToDo Personal.md" target="_blank">ToDoPersonal</a></li>
+          </ul>
+        </aside>
+      </div>
 
-    <!-- Pomodoro Timer and History Section -->
-    <section class="right-panel">
-      <section id="pomodoro">
-        <h2>Pomodoro Timer</h2>
-        <div id="timer">25:00</div>
-        <button id="startBtn">Start</button>
-        <button id="pauseBtn">Pause</button>
-        <button id="resumeBtn">Resume</button>
-        <button id="resetBtn">Reset</button>
-        <button id="shortBreakBtn">5 min Break</button>
-      </section>
+      <!-- Right Panel: Pomodoro Timer and History Section -->
+      <div class="column is-three-quarters">
+        <!-- Pomodoro Timer Section -->
+        <section class="section">
+          <div class="box">
+            <h2 class="title is-4" id="currentTask">Pomodoro Timer</h2>
+            <div id="timer" class="subtitle has-text-centered">25:00</div>
+            <div class="buttons is-centered">
+              <!-- Play Button: acts as Start / Resume -->
+              <button id="startBtn" class="button is-primary" aria-label="Start Pomodoro">
+                <span class="icon"><i class="fas fa-play"></i></span>
+              </button>
+              <!-- Pause Button -->
+              <button id="pauseBtn" class="button is-warning" aria-label="Pause Pomodoro">
+                <span class="icon"><i class="fas fa-pause"></i></span>
+              </button>
+              <!-- Reset Button -->
+              <button id="resetBtn" class="button is-danger" aria-label="Reset Pomodoro">
+                <span class="icon"><i class="fas fa-undo"></i></span>
+              </button>
+              <!-- Break Button -->
+              <button id="shortBreakBtn" class="button is-link" aria-label="Start Break">
+                <span class="icon"><i class="fas fa-coffee"></i></span>
+              </button>
+            </div>
+          </div>
+        </section>
 
-      <section id="history">
-        <h2>Pomodoro History</h2>
-          <table id="historyTable">
-            <thead>
-              <tr>
-                <th>Task</th>
-                <th>Start Time</th>
-                <th>Finish Time</th>
-              </tr>
-            </thead>
-            <tbody id="historyBody">
-              <!-- Individual sessions will be populated here -->
-            </tbody>
-            <tfoot id="historySummary">
-              <!-- Totals for tasks with the same description will appear here -->
-            </tfoot>
-          </table>
-        </table>
-      </section>
-    </section>
+        <!-- Pomodoro History Section -->
+        <section class="section">
+          <div class="box">
+            <h2 class="title is-4">Pomodoro History</h2>
+            <table id="historyTable" class="table is-fullwidth is-striped is-hoverable">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Start Time</th>
+                  <th>Finish Time</th>
+                </tr>
+              </thead>
+              <tbody id="historyBody">
+                <!-- Individual sessions will be populated here -->
+              </tbody>
+              <tfoot id="historySummary">
+                <!-- Totals for tasks with the same description will appear here -->
+              </tfoot>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
   </div>
 
   <script src="js/pomodoro.js"></script>
