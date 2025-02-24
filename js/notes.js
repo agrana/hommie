@@ -1,3 +1,5 @@
+const STORAGE_KEY = "easyMDEContent";
+
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize EasyMDE on the textarea with id "easyMDE"
   const easyMDE = new EasyMDE({
@@ -13,6 +15,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // You can add additional options here
   });
 
+  // Load saved content from localStorage (if available)
+  const savedContent = localStorage.getItem(STORAGE_KEY);
+  if (savedContent) {
+    easyMDE.value(savedContent);
+  }
+
+  // Save content on change
+  easyMDE.codemirror.on("change", function () {
+    localStorage.setItem(STORAGE_KEY, easyMDE.value());
+  });
   const saveNoteBtn = document.getElementById('saveNoteBtn');
   const notesLog = document.getElementById('notesLog');
 
@@ -73,7 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
       saveNote();
     }
   });
-
+  document.getElementById("clearEditorBtn").addEventListener("click", function () {
+    easyMDE.value(""); // Clear editor
+    localStorage.removeItem(STORAGE_KEY); // Remove from localStorage
+  });
   // Render existing notes on page load
   renderNotes();
 });
