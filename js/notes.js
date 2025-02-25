@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   const saveNoteBtn = document.getElementById('saveNoteBtn');
   const notesLog = document.getElementById('notesLog');
-
+  
   // Load existing notes from localStorage or start with an empty array
   let notes = JSON.parse(localStorage.getItem('notes')) || [];
 
